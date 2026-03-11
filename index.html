@@ -438,6 +438,87 @@ text-transform: uppercase;
 }
 .foot-logo em { font-style: normal; color: #2a2a2a; }
 
+/* ── EMAIL FORM ── */
+.email-form {
+display: flex; gap: 0;
+max-width: 500px;
+border: 1px solid #333;
+border-radius: 3px;
+overflow: hidden;
+background: #111;
+box-shadow: 0 0 0 1px rgba(230,60,47,0.15);
+}
+
+.email-form input[type=“email”] {
+flex: 1;
+background: transparent;
+border: none;
+outline: none;
+padding: 18px 22px;
+font-family: ‘Barlow’, sans-serif;
+font-size: 1rem;
+color: var(–white);
+min-width: 0;
+}
+.email-form input::placeholder { color: #444; }
+
+.email-form button {
+background: var(–red);
+color: var(–white);
+border: none;
+padding: 15px 28px;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.1rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+cursor: pointer;
+white-space: nowrap;
+flex-shrink: 0;
+position: relative;
+transition: background 0.18s, transform 0.15s;
+box-shadow: 0 0 28px rgba(230,60,47,0.55), 0 0 60px rgba(230,60,47,0.2);
+animation: btnPulse 2.5s ease-in-out infinite;
+}
+.email-form button:hover {
+background: #ff4436;
+transform: scale(1.04);
+box-shadow: 0 0 40px rgba(230,60,47,0.8), 0 0 80px rgba(230,60,47,0.35);
+}
+
+@keyframes btnPulse {
+0%, 100% { box-shadow: 0 0 28px rgba(230,60,47,0.55), 0 0 60px rgba(230,60,47,0.2); }
+50% { box-shadow: 0 0 44px rgba(230,60,47,0.85), 0 0 90px rgba(230,60,47,0.35); }
+}
+
+.form-note {
+margin-top: 10px;
+font-size: 0.72rem;
+color: #333;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+}
+
+.success-msg {
+display: none;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: 1.1rem;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(–red);
+padding: 16px 0;
+}
+
+/* center version for bottom CTA */
+.email-form-center {
+display: flex; flex-direction: column; align-items: center; gap: 10px;
+position: relative;
+}
+.email-form-center .email-form { width: 100%; max-width: 460px; }
+.email-form-center .form-note { text-align: center; }
+.email-form-center .success-msg { text-align: center; }
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
 from { opacity: 0; transform: translateY(20px); }
@@ -485,9 +566,13 @@ footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
       <strong>Don't spend 3 more making the video.</strong><br>
       Beat Drop auto-generates your YouTube video and thumbnail the second you upload your file.
     </p>
-    <div class="hero-cta">
-      <a href="https://tally.so/r/VLIx6M" class="btn-main">Get Early Access — It's Free</a>
-      <span class="btn-ghost">No credit card · No BS</span>
+    <div class="hero-cta" style="flex-direction:column; align-items:flex-start;">
+      <div class="email-form">
+        <input type="email" id="hero-email" placeholder="yourbeats@gmail.com" />
+        <button onclick="submitEmail('hero-email', 'hero-success')">Get Early Access</button>
+      </div>
+      <div class="success-msg" id="hero-success">✓ You're on the list. We'll hit you first.</div>
+      <p class="form-note">Free during beta · No credit card · No BS</p>
     </div>
     <div class="hero-proof">
       <div class="proof-item">
@@ -632,7 +717,14 @@ footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
 <div class="final-cta">
   <h2>Stop editing.<br><em>Start uploading.</em></h2>
   <p>Join the early access list. First producers in get it free during beta.</p>
-  <a href="https://tally.so/r/VLIx6M" class="btn-main">Secure Your Spot →</a>
+  <div class="email-form-center">
+    <div class="email-form">
+      <input type="email" id="bottom-email" placeholder="yourbeats@gmail.com" />
+      <button onclick="submitEmail('bottom-email', 'bottom-success')">Lock In My Spot</button>
+    </div>
+    <div class="success-msg" id="bottom-success">✓ You're on the list. We'll hit you first.</div>
+    <p class="form-note">Free during beta · No credit card · No BS</p>
+  </div>
 </div>
 
 <!-- FOOTER -->
@@ -641,6 +733,36 @@ footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
   <div class="foot-logo">Beat<em>Drop</em></div>
   <div>Built for producers who actually upload.</div>
 </footer>
+
+<script>
+async function submitEmail(inputId, successId) {
+  const input = document.getElementById(inputId);
+  const success = document.getElementById(successId);
+  const email = input.value.trim();
+
+  if (!email || !email.includes('@')) {
+    input.style.borderBottom = '2px solid var(--red)';
+    input.focus();
+    return;
+  }
+
+  try {
+    await fetch('https://tally.so/r/obBxqO', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+  } catch(e) {}
+
+  // Always show success — Tally link is the backup
+  input.closest('.email-form').style.display = 'none';
+  success.style.display = 'block';
+
+  // Fallback: also open Tally in background tab to guarantee capture
+  window.open('https://tally.so/r/obBxqO?email=' + encodeURIComponent(email), '_blank');
+}
+</script>
 
 </body>
 </html>
