@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Beat Drop — Stop Wasting Time Editing. Start Uploading.</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–black: #050505;
+–off-black: #0d0d0d;
+–white: #f2f0eb;
+–red: #e63c2f;
+–red-dim: #c42e22;
+–gray: #1a1a1a;
+–mid: #3a3a3a;
+–muted: #666;
+–faint: #222;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+background: var(–black);
+color: var(–white);
+font-family: ‘Barlow’, sans-serif;
+overflow-x: hidden;
+}
+
+/* grain */
+body::before {
+content: ‘’;
+position: fixed; inset: 0; z-index: 998; pointer-events: none;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 200 200’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.75’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.03’/%3E%3C/svg%3E”);
+opacity: 0.5;
+}
+
+/* ── NAV ── */
+nav {
+display: flex; justify-content: space-between; align-items: center;
+padding: 20px 48px;
+position: fixed; top: 0; width: 100%; z-index: 100;
+background: rgba(5,5,5,0.85);
+backdrop-filter: blur(10px);
+border-bottom: 1px solid #111;
+}
+
+.logo {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 1.5rem;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(–white);
+}
+.logo em { font-style: normal; color: var(–red); }
+
+.nav-tag {
+font-size: 0.7rem;
+font-weight: 600;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+color: var(–muted);
+border: 1px solid #222;
+padding: 6px 14px;
+border-radius: 2px;
+}
+
+/* ── HERO ── */
+.hero {
+min-height: 100vh;
+display: flex; flex-direction: column;
+justify-content: center;
+padding: 140px 48px 80px;
+position: relative;
+overflow: hidden;
+max-width: 1100px;
+margin: 0 auto;
+}
+
+/* big background text */
+.hero-bg-text {
+position: absolute;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: clamp(10rem, 22vw, 22rem);
+color: rgba(255,255,255,0.018);
+letter-spacing: -0.02em;
+top: 50%; left: -20px;
+transform: translateY(-50%);
+pointer-events: none;
+white-space: nowrap;
+line-height: 1;
+user-select: none;
+}
+
+.hero-label {
+font-size: 0.72rem;
+font-weight: 600;
+letter-spacing: 0.22em;
+text-transform: uppercase;
+color: var(–red);
+margin-bottom: 24px;
+animation: fadeUp 0.6s ease both;
+}
+
+h1 {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: clamp(3.8rem, 10vw, 8.5rem);
+line-height: 0.92;
+letter-spacing: -0.01em;
+text-transform: uppercase;
+max-width: 820px;
+animation: fadeUp 0.7s 0.08s ease both;
+}
+
+h1 .line-red { color: var(–red); display: block; }
+h1 .line-dim { color: #444; display: block; }
+
+.hero-sub {
+margin-top: 32px;
+font-size: clamp(1rem, 1.8vw, 1.15rem);
+color: var(–muted);
+line-height: 1.75;
+max-width: 520px;
+animation: fadeUp 0.7s 0.16s ease both;
+border-left: 2px solid var(–red);
+padding-left: 18px;
+}
+
+.hero-sub strong { color: #bbb; font-weight: 500; }
+
+.hero-cta {
+margin-top: 48px;
+display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+animation: fadeUp 0.7s 0.24s ease both;
+}
+
+.btn-main {
+display: inline-block;
+background: var(–red);
+color: var(–white);
+text-decoration: none;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: 1.1rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+padding: 16px 40px;
+border-radius: 2px;
+transition: background 0.18s, transform 0.15s;
+position: relative;
+overflow: hidden;
+}
+.btn-main::after {
+content: ‘’;
+position: absolute; inset: 0;
+background: rgba(255,255,255,0.07);
+opacity: 0;
+transition: opacity 0.2s;
+}
+.btn-main:hover { background: var(–red-dim); transform: translateY(-2px); }
+.btn-main:hover::after { opacity: 1; }
+
+.btn-ghost {
+font-size: 0.8rem;
+font-weight: 600;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+color: var(–muted);
+text-decoration: none;
+}
+
+.hero-proof {
+margin-top: 64px;
+display: flex; gap: 40px; flex-wrap: wrap;
+animation: fadeUp 0.7s 0.32s ease both;
+border-top: 1px solid #111;
+padding-top: 32px;
+}
+
+.proof-item { display: flex; flex-direction: column; gap: 4px; }
+.proof-num {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 2rem;
+letter-spacing: 0.02em;
+color: var(–white);
+}
+.proof-num span { color: var(–red); }
+.proof-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(–muted); }
+
+/* ── MARQUEE ── */
+.marquee-wrap {
+border-top: 1px solid #111;
+border-bottom: 1px solid #111;
+padding: 14px 0;
+overflow: hidden;
+background: var(–off-black);
+}
+
+.marquee-track {
+display: flex; gap: 0;
+animation: marquee 22s linear infinite;
+white-space: nowrap;
+}
+
+.marquee-item {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: 0.75rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: #2a2a2a;
+padding: 0 28px;
+flex-shrink: 0;
+}
+.marquee-item.accent { color: var(–red); }
+
+@keyframes marquee {
+from { transform: translateX(0); }
+to { transform: translateX(-50%); }
+}
+
+/* ── SECTION BASE ── */
+.section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+.section-tag {
+font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em;
+text-transform: uppercase; color: var(–red); margin-bottom: 16px;
+}
+.section-heading {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: clamp(2.6rem, 5vw, 4.2rem);
+text-transform: uppercase;
+letter-spacing: 0.01em;
+line-height: 1;
+margin-bottom: 56px;
+max-width: 700px;
+}
+.section-heading em { font-style: normal; color: var(–red); }
+
+/* ── REAL TALK BLOCK ── */
+.realtalk {
+background: var(–off-black);
+border-top: 1px solid #111;
+border-bottom: 1px solid #111;
+padding: 80px 48px;
+}
+
+.realtalk-inner {
+max-width: 1100px; margin: 0 auto;
+display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+
+.realtalk-left .section-heading { margin-bottom: 0; }
+
+.realtalk-right {
+display: flex; flex-direction: column; gap: 0;
+}
+
+.talk-line {
+padding: 20px 0;
+border-bottom: 1px solid #161616;
+display: flex; gap: 16px; align-items: flex-start;
+}
+.talk-line:last-child { border-bottom: none; }
+
+.talk-num {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 0.75rem;
+color: var(–red);
+letter-spacing: 0.1em;
+padding-top: 3px;
+flex-shrink: 0;
+}
+
+.talk-text {
+font-size: 0.95rem;
+color: #777;
+line-height: 1.6;
+}
+.talk-text strong { color: #ccc; font-weight: 500; }
+
+/* ── HOW IT WORKS ── */
+.steps-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1px;
+background: #111;
+border: 1px solid #111;
+border-radius: 4px;
+overflow: hidden;
+}
+
+.step {
+background: var(–off-black);
+padding: 40px 32px;
+transition: background 0.2s;
+position: relative;
+}
+.step:hover { background: #131313; }
+
+.step-n {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 5rem;
+color: rgba(255,255,255,0.04);
+line-height: 1;
+margin-bottom: 20px;
+letter-spacing: -0.02em;
+}
+
+.step-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+
+.step h3 {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700;
+font-size: 1.3rem;
+letter-spacing: 0.06em;
+text-transform: uppercase;
+color: var(–white);
+margin-bottom: 10px;
+}
+
+.step p { font-size: 0.88rem; color: #666; line-height: 1.7; }
+
+.step-tag {
+display: inline-block;
+margin-top: 16px;
+font-size: 0.65rem;
+font-weight: 700;
+letter-spacing: 0.16em;
+text-transform: uppercase;
+color: var(–red);
+border: 1px solid rgba(230,60,47,0.25);
+padding: 4px 10px;
+border-radius: 2px;
+}
+
+/* ── WHO THIS IS FOR ── */
+.for-section { background: var(–black); }
+
+.for-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 1px;
+background: #111;
+border: 1px solid #111;
+border-radius: 4px;
+overflow: hidden;
+max-width: 860px;
+}
+
+.for-card {
+background: var(–off-black);
+padding: 32px;
+}
+
+.for-card-label {
+font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
+text-transform: uppercase; margin-bottom: 20px; display: block;
+}
+.for-card.yes .for-card-label { color: var(–red); }
+.for-card.no .for-card-label { color: #333; }
+
+.for-card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.for-card li { font-size: 0.9rem; color: #666; line-height: 1.5; display: flex; gap: 10px; }
+.for-card.yes li { color: #999; }
+.for-card.yes li::before { content: ‘→’; color: var(–red); flex-shrink: 0; }
+.for-card.no li::before { content: ‘—’; color: #2a2a2a; flex-shrink: 0; }
+
+/* ── BOTTOM CTA ── */
+.final-cta {
+text-align: center;
+padding: 120px 48px;
+position: relative;
+overflow: hidden;
+border-top: 1px solid #111;
+}
+
+.final-cta::before {
+content: ‘DROP’;
+position: absolute;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: 32vw;
+color: rgba(230,60,47,0.03);
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+pointer-events: none;
+user-select: none;
+white-space: nowrap;
+}
+
+.final-cta h2 {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+font-size: clamp(3rem, 7vw, 6rem);
+text-transform: uppercase;
+letter-spacing: 0.01em;
+line-height: 0.95;
+margin-bottom: 24px;
+position: relative;
+}
+
+.final-cta h2 em { font-style: normal; color: var(–red); }
+
+.final-cta p {
+color: var(–muted);
+font-size: 1rem;
+margin-bottom: 44px;
+position: relative;
+max-width: 400px;
+margin-left: auto; margin-right: auto;
+line-height: 1.7;
+}
+
+/* ── FOOTER ── */
+footer {
+padding: 20px 48px;
+border-top: 1px solid #0e0e0e;
+display: flex; justify-content: space-between; align-items: center;
+font-size: 0.75rem; color: #2a2a2a;
+}
+
+.foot-logo {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 900;
+letter-spacing: 0.1em;
+font-size: 1rem;
+text-transform: uppercase;
+}
+.foot-logo em { font-style: normal; color: #2a2a2a; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(20px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+nav { padding: 18px 24px; }
+.hero { padding: 120px 24px 60px; }
+.section { padding: 72px 24px; }
+.realtalk { padding: 64px 24px; }
+.realtalk-inner { grid-template-columns: 1fr; gap: 40px; }
+.steps-grid { grid-template-columns: 1fr; }
+.for-grid { grid-template-columns: 1fr; }
+footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
+.hero-proof { gap: 24px; }
+.final-cta { padding: 80px 24px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <div class="logo">Beat<em>Drop</em></div>
+  <div class="nav-tag">Early Access</div>
+</nav>
+
+<!-- HERO -->
+
+<div style="position:relative; overflow:hidden;">
+  <div class="hero">
+    <div class="hero-bg-text">UPLOAD</div>
+    <p class="hero-label">// For Type Beat Producers</p>
+    <h1>
+      Finish the beat.<br>
+      <span class="line-red">Skip the edit.</span>
+      <span class="line-dim">Upload today.</span>
+    </h1>
+    <p class="hero-sub">
+      You spent 4 hours on the beat.<br>
+      <strong>Don't spend 3 more making the video.</strong><br>
+      Beat Drop auto-generates your YouTube video and thumbnail the second you upload your file.
+    </p>
+    <div class="hero-cta">
+      <a href="https://tally.so/r/VLIx6M" class="btn-main">Get Early Access — It's Free</a>
+      <span class="btn-ghost">No credit card · No BS</span>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item">
+        <div class="proof-num">10<span>sec</span></div>
+        <div class="proof-label">Beat to video</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">0<span>hrs</span></div>
+        <div class="proof-label">Editing time</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">100<span>%</span></div>
+        <div class="proof-label">Auto-generated</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Trap Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Drill Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">R&B Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Pop Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Upload in 10 Seconds</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">No Editing</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Auto Thumbnail</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Trap Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Drill Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">R&B Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Pop Type Beat</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Upload in 10 Seconds</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">No Editing</span>
+    <span class="marquee-item accent">→</span>
+    <span class="marquee-item">Auto Thumbnail</span>
+    <span class="marquee-item accent">→</span>
+  </div>
+</div>
+
+<!-- REAL TALK -->
+
+<div class="realtalk">
+  <div class="realtalk-inner">
+    <div class="realtalk-left">
+      <p class="section-tag">// Real Talk</p>
+      <h2 class="section-heading">The grind nobody<br>talks <em>about</em></h2>
+    </div>
+    <div class="realtalk-right">
+      <div class="talk-line">
+        <span class="talk-num">01</span>
+        <p class="talk-text">You finish a <strong>hard beat at 2am</strong> and still have to open CapCut or Premiere just to post it.</p>
+      </div>
+      <div class="talk-line">
+        <span class="talk-num">02</span>
+        <p class="talk-text">Big channels are uploading <strong>every single day</strong>. You can't keep up when editing takes hours.</p>
+      </div>
+      <div class="talk-line">
+        <span class="talk-num">03</span>
+        <p class="talk-text">Your <strong>thumbnail looks slept on</strong> compared to producers with a whole design team.</p>
+      </div>
+      <div class="talk-line">
+        <span class="talk-num">04</span>
+        <p class="talk-text">Half the time you just <strong>skip uploading</strong> because the editing grind kills the momentum.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+
+<div class="section">
+  <p class="section-tag">// How It Works</p>
+  <h2 class="section-heading">Done before the<br>beat even <em>cools</em></h2>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-n">01</div>
+      <span class="step-icon">🎧</span>
+      <h3>Drop Your Beat</h3>
+      <p>Upload any MP3 or WAV straight from your DAW. Trap, drill, R&B, pop — doesn't matter.</p>
+      <span class="step-tag">Any format</span>
+    </div>
+    <div class="step">
+      <div class="step-n">02</div>
+      <span class="step-icon">⚡</span>
+      <h3>AI Reads the Vibe</h3>
+      <p>Beat Drop analyzes the energy, mood, and tempo of your track. Dark drill gets dark visuals. Melodic R&B gets something different.</p>
+      <span class="step-tag">Auto-matched</span>
+    </div>
+    <div class="step">
+      <div class="step-n">03</div>
+      <span class="step-icon">📤</span>
+      <h3>Download & Post</h3>
+      <p>Get a YouTube-ready video + thumbnail. Copy the title. Hit upload. You're done while other producers are still in Premiere.</p>
+      <span class="step-tag">Ready to upload</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHO IT'S FOR -->
+
+<div class="section for-section" style="padding-top:0;">
+  <p class="section-tag">// Who This Is For</p>
+  <h2 class="section-heading">Built for producers<br>who <em>actually upload</em></h2>
+  <div class="for-grid">
+    <div class="for-card yes">
+      <span class="for-card-label">This is you</span>
+      <ul>
+        <li>You're uploading trap, drill, R&B or pop type beats to YouTube</li>
+        <li>You hate how long the video edit takes after the beat is done</li>
+        <li>You want to post more consistently but editing slows you down</li>
+        <li>You're trying to grow your channel without hiring an editor</li>
+        <li>You know consistency beats talent on the algorithm</li>
+      </ul>
+    </div>
+    <div class="for-card no">
+      <span class="for-card-label">Probably not for you</span>
+      <ul>
+        <li>You already have an editor or design team handling your visuals</li>
+        <li>You only upload once a month and don't care about speed</li>
+        <li>You're not posting beats to YouTube at all</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM CTA -->
+
+<div class="final-cta">
+  <h2>Stop editing.<br><em>Start uploading.</em></h2>
+  <p>Join the early access list. First producers in get it free during beta.</p>
+  <a href="https://tally.so/r/VLIx6M" class="btn-main">Secure Your Spot →</a>
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="foot-logo">Beat<em>Drop</em></div>
+  <div>Built for producers who actually upload.</div>
+</footer>
+
+</body>
+</html>
